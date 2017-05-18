@@ -21,7 +21,7 @@ class TestPost(MoviesTest):
         self.assertEqual(response.status_code, 405)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Not supported resource creation'},
+            {'message': u'Not supported resource creation'},
             response_json
         )
 
@@ -38,7 +38,7 @@ class TestPost(MoviesTest):
             self.assertEqual(response.status_code, 500)
             response_json = json.loads(response.data or '{}')
             self.assertDictContainsSubset(
-                {'message': 'The resource can not be created'},
+                {'message': u'The resource can not be created'},
                 response_json
             )
 
@@ -66,7 +66,7 @@ class TestPost(MoviesTest):
         self.assertDictEqual(movie, response_json)
 
     def test_post(self):
-        movie = {'name': 'Kill Bill: Volumen 1', 'year': '2003'}
+        movie = {'name': u'Kill Bill: Volumen 1', 'year': u'2003'}
         response = self.app.post(
             '/%s/movies' % self.api,
             headers=self.headers,
@@ -89,7 +89,7 @@ class TestPost(MoviesTest):
         self.assertDictEqual(movie, response_json)
 
     def test_post_and_ignore_id_parameter(self):
-        movie = {'name': 'Kill Bill: Volumen 1', 'year': '2003', 'id': '1', '_id': '2'}
+        movie = {'name': u'Kill Bill: Volumen 1', 'year': u'2003', 'id': u'1', '_id': u'2'}
         response = self.app.post(
             '/%s/movies' % self.api,
             headers=self.headers,
@@ -113,7 +113,7 @@ class TestPost(MoviesTest):
         self.assertDictEqual(movie, response_json)
 
     def test_post_nested(self):
-        star = {'grade': '10'}
+        star = {'grade': u'10'}
         response = self.app.post(
             '/%s/movies/%s/stars' % (self.api, self.movies[2]['id']),
             headers=self.headers,

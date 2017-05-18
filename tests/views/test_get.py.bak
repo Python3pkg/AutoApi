@@ -13,7 +13,7 @@ class TestGetResource(MoviesTest):
         self.assertEqual(response.status_code, 404)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Resource "%s" not found' % self.movies[0]['id']},
+            {'message': u'Resource "%s" not found' % self.movies[0]['id']},
             response_json
         )
 
@@ -21,7 +21,7 @@ class TestGetResource(MoviesTest):
         response = self.app.get('/%s/movies/a1' % self.api, headers=self.headers)
         self.assertEqual(response.status_code, 409)
         response_json = json.loads(response.data or '{}')
-        self.assertDictContainsSubset({'message': 'Resource "a1" is invalid'}, response_json)
+        self.assertDictContainsSubset({'message': u'Resource "a1" is invalid'}, response_json)
 
     def test_get(self):
         response = self.app.get('/%s/movies/%s' % (self.api, self.movies[0]['id']), headers=self.headers)
@@ -46,7 +46,7 @@ class TestGetResource(MoviesTest):
         self.assertEqual(response.status_code, 404)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Resource "%s" not found' % self.movies[2]['id']},
+            {'message': u'Resource "%s" not found' % self.movies[2]['id']},
             response_json
         )
 
@@ -80,7 +80,7 @@ class TestGetCollectionParameters(MoviesTest):
         response = self.app.get(
             '/%s/movies' % self.api,
             headers=self.headers,
-            query_string={'name': 'Pulp Fiction', 'year': '1994'}
+            query_string={'name': u'Pulp Fiction', 'year': u'1994'}
         )
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.data)
@@ -135,7 +135,7 @@ class TestGetCollectionParameters(MoviesTest):
         response = self.app.get(
             '/%s/movies' % self.api,
             headers=self.headers,
-            query_string={'name': 'Fiction', '_regex': 'name'}
+            query_string={'name': u'Fiction', '_regex': u'name'}
         )
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.data)
@@ -145,7 +145,7 @@ class TestGetCollectionParameters(MoviesTest):
         response = self.app.get(
             '/%s/actors' % self.api,
             headers=self.headers,
-            query_string={'name': '.*am.*', '_regex': 'name'}
+            query_string={'name': u'.*am.*', '_regex': u'name'}
         )
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.data)

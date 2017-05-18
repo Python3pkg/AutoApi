@@ -39,15 +39,15 @@ def forbidden(text):
 
 
 def unauthenticated():
-    return message('Invalid email/password/api', status=401)
+    return message(u'Invalid email/password/api', status=401)
 
 
 def unauthorized(api):
-    return message('You must be authorized in "%s" api' % api, status=403)
+    return message(u'You must be authorized in "%s" api' % api, status=403)
 
 
 def unlogged(api):
-    return message('You must be logged in "%s" api' % api, status=401)
+    return message(u'You must be logged in "%s" api' % api, status=401)
 
 
 def not_found(text):

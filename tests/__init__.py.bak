@@ -94,15 +94,15 @@ class LoggedTest(BaseAuthTest):
 class MoviesTest(LoggedTest):
 
     actors = [
-        {'name': 'Pam Grier', 'gender': 'famele'},
-        {'name': 'Samuel Jackson', 'gender': 'male'},
-        {'name': 'Harvey Keitel', 'gender': 'male'}
+        {'name': u'Pam Grier', 'gender': u'famele'},
+        {'name': u'Samuel Jackson', 'gender': u'male'},
+        {'name': u'Harvey Keitel', 'gender': u'male'}
     ]
 
     movies = [
-        {'name': 'Jackie Brown', 'year': '1997'},
-        {'name': 'Pulp Fiction', 'year': '1994'},
-        {'name': 'Reservoir Dogs', 'year': '1992'},
+        {'name': u'Jackie Brown', 'year': u'1997'},
+        {'name': u'Pulp Fiction', 'year': u'1994'},
+        {'name': u'Reservoir Dogs', 'year': u'1992'},
     ]
 
     @classmethod

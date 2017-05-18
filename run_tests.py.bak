@@ -33,20 +33,20 @@ def run():
 
     status, statusA = False, False
     try:
-        print("Starting mongo servers:")
+        print "Starting mongo servers:"
 
         # start server
-        print(" - server...", end=' ')
+        print " - server...",
         sys.stdout.flush()
         mongobox.start()
         status = True
-        print("OK")
+        print "OK"
 
         # start auth server
-        print(" - server auth...", end=' ')
+        print " - server auth...",
         sys.stdout.flush()
         mongoboxA.start()
-        print("OK\n")
+        print "OK\n"
         statusA = True
         sys.stdout.flush()
 
@@ -55,16 +55,16 @@ def run():
     finally:
         # stop servers
         if status:
-            print("\n\nStoping mongo servers:")
-            print(" - server...", end=' ')
+            print "\n\nStoping mongo servers:"
+            print " - server...",
             sys.stdout.flush()
             mongobox.stop()
-            print("OK")
+            print "OK"
             if statusA:
-                print(" - server auth...", end=' ')
+                print " - server auth...",
                 sys.stdout.flush()
                 mongoboxA.stop()
-                print("OK")
+                print "OK"
 
 
 if __name__ == '__main__':

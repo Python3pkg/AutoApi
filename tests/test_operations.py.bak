@@ -14,7 +14,7 @@ class TestLogin(BaseAuthTest):
             response_json = json.loads(response.data or '{}')
             self.assertDictEqual(
                 response_json,
-                {'message': 'You must be logged in "%s" api' % self.api}
+                {'message': u'You must be logged in "%s" api' % self.api}
             )
 
     def test_incomplete_login(self):
@@ -23,7 +23,7 @@ class TestLogin(BaseAuthTest):
         self.assertEqual(response.status_code, 400)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Missing "api" parameter'},
+            {'message': u'Missing "api" parameter'},
             response_json
         )
 
@@ -33,7 +33,7 @@ class TestLogin(BaseAuthTest):
         self.assertEqual(response.status_code, 400)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Missing parameters'},
+            {'message': u'Missing parameters'},
             response_json
         )
 
@@ -43,7 +43,7 @@ class TestLogin(BaseAuthTest):
         self.assertEqual(response.status_code, 401)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Invalid email/password/api'},
+            {'message': u'Invalid email/password/api'},
             response_json
         )
 
@@ -76,7 +76,7 @@ class TestLogout(BaseAuthTest):
         response_json = json.loads(response.data or '{}')
         self.assertDictEqual(
             response_json,
-            {'message': 'Missing "api" parameter'}
+            {'message': u'Missing "api" parameter'}
         )
 
     def test_logout_but_unauthorized_in_other_api(self):
@@ -89,14 +89,14 @@ class TestLogout(BaseAuthTest):
         response_json = json.loads(response.data or '{}')
         self.assertDictEqual(
             response_json,
-            {'message': 'You must be logged in "%s" api' % 'bad_api'}
+            {'message': u'You must be logged in "%s" api' % u'bad_api'}
         )
 
 
 class TestCreateUser(MoviesTest):
 
     def test_missing_parameters(self):
-        test_data = {'email': 'fvalverd', 'api': self.api, 'roles': ['read']}
+        test_data = {'email': u'fvalverd', 'api': self.api, 'roles': ['read']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -108,12 +108,12 @@ class TestCreateUser(MoviesTest):
         self.assertEqual(response.status_code, 400)
         response_json = json.loads(response.data or '{}')
         self.assertDictContainsSubset(
-            {'message': 'Missing parameters'},
+            {'message': u'Missing parameters'},
             response_json
         )
 
     def test_read_role(self):
-        test_data = {'email': 'fvalverd', 'password': 'pass', 'api': self.api, 'roles': ['read']}
+        test_data = {'email': u'fvalverd', 'password': u'pass', 'api': self.api, 'roles': ['read']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -149,7 +149,7 @@ class TestCreateUser(MoviesTest):
         self.assertEqual(response.status_code, 403)
 
     def test_create_role(self):
-        test_data = {'email': 'fvalverd', 'password': 'pass', 'api': self.api, 'roles': ['create']}
+        test_data = {'email': u'fvalverd', 'password': u'pass', 'api': self.api, 'roles': ['create']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -190,7 +190,7 @@ class TestCreateUser(MoviesTest):
         self.assertEqual(response.status_code, 403)
 
     def test_update_role(self):
-        test_data = {'email': 'fvalverd', 'password': 'pass', 'api': self.api, 'roles': ['update']}
+        test_data = {'email': u'fvalverd', 'password': u'pass', 'api': self.api, 'roles': ['update']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -236,7 +236,7 @@ class TestCreateUser(MoviesTest):
         self.assertEqual(response.status_code, 403)
 
     def test_delete_role(self):
-        test_data = {'email': 'fvalverd', 'password': 'pass', 'api': self.api, 'roles': ['delete']}
+        test_data = {'email': u'fvalverd', 'password': u'pass', 'api': self.api, 'roles': ['delete']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -272,7 +272,7 @@ class TestCreateUser(MoviesTest):
         self.assertEqual(response.status_code, 204)
 
     def test_admin_role(self):
-        test_data = {'email': 'fvalverd', 'password': 'pass', 'api': self.api, 'roles': ['admin']}
+        test_data = {'email': u'fvalverd', 'password': u'pass', 'api': self.api, 'roles': ['admin']}
 
         admin_headers = self.get_admin_headers()
         response = self.app.post(
@@ -328,7 +328,7 @@ class TestEditRoles(MoviesTest):
     @classmethod
     def setUpClass(cls):
         super(TestEditRoles, cls).setUpClass()
-        cls.read_user = {'email': 'fvalverd', 'password': 'pass', 'api': cls.api, 'roles': ['read']}
+        cls.read_user = {'email': u'fvalverd', 'password': u'pass', 'api': cls.api, 'roles': ['read']}
         cls.app.post(
             '/user',
             headers=cls.headers,
@@ -436,7 +436,7 @@ class TestEditRoles(MoviesTest):
             response = self.app.post(
                 '/user',
                 headers=self.read_user_header,
-                data=json.dumps({'email': email, 'password': 'pass', 'api': self.api}),
+                data=json.dumps({'email': email, 'password': u'pass', 'api': self.api}),
                 content_type='application/json'
             )
             self.assertEqual(response.status_code, status_code)
@@ -446,8 +446,8 @@ class TestChangePassword(BaseAuthTest):
 
     def setUp(self):
         super(TestChangePassword, self).setUp()
-        self._user = 'fvalverd'
-        self._pass = 'pass'
+        self._user = u'fvalverd'
+        self._pass = u'pass'
         self.add_user(self.api, self._user, self._pass, ['read'])
 
     def tearDown(self):
@@ -459,7 +459,7 @@ class TestChangePassword(BaseAuthTest):
         response = self.app.post('/login', data=data)
         headers = self.response_to_headers(response)
 
-        data['password'] = 'new_pass'
+        data['password'] = u'new_pass'
         response = self.app.post('/password', data=data, headers=headers)
         self.assertEqual(response.status_code, 204)
 
@@ -477,11 +477,11 @@ class TestChangePassword(BaseAuthTest):
         response_json = json.loads(response.data or '{}')
         self.assertDictEqual(
             response_json,
-            {'message': 'Missing parameters'}
+            {'message': u'Missing parameters'}
         )
 
     def test_admin_change_user_password(self):
-        data = {'email': self._user, 'password': 'new_pass', 'api': self.api}
+        data = {'email': self._user, 'password': u'new_pass', 'api': self.api}
         response = self.app.post('/password', data=data, headers=self.get_admin_headers())
         self.assertEqual(response.status_code, 204)
 
@@ -506,7 +506,7 @@ class TestOtherOperations(BaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertDictEqual(
             response_json,
-            {'message': 'This is not a valid operation'}
+            {'message': u'This is not a valid operation'}
         )
 
 
@@ -527,7 +527,7 @@ class TestOtherOperationsAuth(BaseAuthTest):
         self.assertEqual(response.status_code, 400)
         self.assertDictEqual(
             response_json,
-            {'message': 'This is not a valid operation'}
+            {'message': u'This is not a valid operation'}
         )
 
     def test_invalid_operation_auth(self):
@@ -541,7 +541,7 @@ class TestOtherOperationsAuth(BaseAuthTest):
         self.assertEqual(response.status_code, 400)
         self.assertDictEqual(
             response_json,
-            {'message': 'This is not a valid operation'}
+            {'message': u'This is not a valid operation'}
         )
 
 

@@ -41,7 +41,7 @@ def _read_config(autoapi, path, force_port=None):
         autoapi.app.config[MONGO_KEYS['port']] = force_port
 
     if autoapi.auth and any(
-        key not in autoapi.app.config for key in list(ADMIN_KEYS.values())
+        key not in autoapi.app.config for key in ADMIN_KEYS.values()
     ):
         raise AutoApiMissingAdminConfig('Check your configuration !')
 
